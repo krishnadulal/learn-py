@@ -32,3 +32,9 @@ OS
     :glob:
 
     tools-*
+
+.. toctree::
+    :maxdepth: 2
+    :caption: 另言
+
+    other/index
