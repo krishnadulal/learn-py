@@ -9,9 +9,8 @@ OS
 .. toctree::
     :maxdepth: 2
     :caption: 基础
-    :glob:
 
-    base/*
+    base/base-magics
 
 .. toctree::
     :maxdepth: 2
