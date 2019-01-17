@@ -9,32 +9,34 @@ OS
 .. toctree::
     :maxdepth: 2
     :caption: 基础
+    :glob:
 
-    magic_method
+    base/*
 
 .. toctree::
     :maxdepth: 2
     :caption: 标准库
     :glob:
 
-    std-*
+    stdlib/*
 
 .. toctree::
     :maxdepth: 2
     :caption: 其他模块
     :glob:
 
-    mod-*
+    thirdlib/*
 
 .. toctree::
     :maxdepth: 2
     :caption: 开发工具
     :glob:
 
-    tools-*
+    tool/*
 
 .. toctree::
     :maxdepth: 2
     :caption: 另言
+    :glob:
 
-    other/index
+    other/*
