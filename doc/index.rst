@@ -10,6 +10,8 @@ OS
     :maxdepth: 2
     :caption: 基础
 
+    base/base-number-string
+    base/base-collections
     base/base-magics
 
 .. toctree::

@@ -523,7 +523,7 @@ C 就会越来越大, 内存中就越来越难找到能存放下 C 的连续空�
 :class:`float`
 --------------
 
-.. code:: none
+.. code-block:: none
 
    class float(object)
     |  float(x=0, /)
@@ -539,7 +539,7 @@ C 就会越来越大, 内存中就越来越难找到能存放下 C 的连续空�
 :class:`complex`
 ----------------
 
-.. code:: none
+.. code-block:: none
 
    class complex(object)
     |  complex(real=0, imag=0)
@@ -551,7 +551,7 @@ C 就会越来越大, 内存中就越来越难找到能存放下 C 的连续空�
 :class:`str`
 ------------
 
-.. code:: none
+.. code-block:: none
 
    class str(object)
     |  str(object='') -> str
