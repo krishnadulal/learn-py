@@ -2,6 +2,8 @@
 pickle
 ######
 
+.. highlight:: ipython3
+
 pickle 是用于将 Python 对象保存至文件或字符串的工具. 提供了 ``load``, ``loads``, ``dump``, ``dumps`` 四个函数给用户使用.
 
 pickle 的保存与加载操作只能用于一个对象, 不能将多个对象连接在一起. 保存非内建对象也是可以的, 只是在加载时必须 import 相同的库.
