@@ -12,6 +12,7 @@ OS
 
     base/base-number-string
     base/base-collections
+    base/base-control-structure
     base/base-magics
 
 .. toctree::
