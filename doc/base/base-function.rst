@@ -203,3 +203,169 @@ Hello NIHAO
     gen_odd = number(0, 2)
 
     odd = next(gen_odd)
+
+闭包
+====
+
+由于在 Python 中, 函数与其他对象一样,
+都是可修改该的对象.
+
+例如, 可以将一个函数命名赋值给一个变量,
+就能如同函数一样调用它:
+
+>>> def hello():
+>>>     print("Hello")
+>>> var = hello
+>>> var()
+Hello
+
+甚至, 函数本身也可以作为函数的返回值:
+
+>>> def outer():
+>>>     def inner():
+>>>         print("this is inner")
+>>>     return inner
+>>> x = outer()
+>>> x()
+this is inner
+
+如果在内部定义的函数(称闭包函数)中引用了外部函数的局部变量
+(使用 :keyword:`nolocal` 声明)
+那么, 当外部函数 return 了,
+而由于闭包函数还引用了局部变量,
+导致局部变量不会被销毁, 而是绑定到了闭包函数中.
+
+利用这个性质, 可以做到一系列需要多组全局变量才能做到的事.
+例如一组计数器::
+
+>>> def count(start=0, step=1):
+>>>     i = start
+>>>     def inner():
+>>>         nonlocal i
+>>>         i += step
+>>>         return i
+>>>     return inner
+>>> x = count()
+>>> x()
+>>> # 1
+>>> x()
+>>> # 2
+
+
+装饰器
+======
+
+类似于闭包, 装饰器也是对函数的高级利用.
+
+一个装饰器同样是返回函数的函数.
+
+假设, 要在运行函数之时打一个 log,
+总不可能在每一个函数中调用 ``print`` 吧,
+但是, 可以在装饰器中, 给传入的函数加点东西::
+
+>>> from time import asctime
+>>> def log(func):
+>>>     def wrap():
+>>>         print(asctime())
+>>>         return func()
+>>>     return wrap
+>>>
+>>> @log
+>>> def hello():
+>>>     print("Hello")
+>>> hello()
+Sun Feb 24 23:00:31 2019
+Hello
+
+最外层的 ``log`` 函数接受一个 func 参数,
+在调用时::
+
+    @log
+    def func():
+        return
+
+是直接将定义的函数传入, 在装饰之后赋值给同名变量.
+
+``@`` 符号是一个语法糖, 它的本义是::
+
+    def func():
+        return
+    func = log(func)
+
+如果被装饰的函数需要参数怎么做?
+-------------------------------
+
+用上方的 ``log`` 装饰器举例::
+
+    from time import asctime
+    def log(func):  # 这里, 定义装饰器的形参
+        def wrap(): # 这里, 定义被装饰函数的形参
+            print(asctime())
+            return func() # 这里, 对需要的形参原样传入
+        return wrap
+
+一般情况下, 装饰器都是期望能用于所有函数的, 所以,
+一般以 ``*args, **kwargs`` 来当参数::
+
+    from time import asctime
+    def log(func):
+        def wrap(*args, **kwargs):
+            print(asctime())
+            return func(*args, **kwargs)
+        return wrap
+    @log
+    def hello(name):
+        print("Hello " + name)
+    hello("Zombie110year")
+
+    Sun Feb 24 23:07:47 2019
+    Hello Zombie110year
+
+如果装饰器需要参数?
+-------------------
+
+如果装饰器也需要参数,
+那么就不是一层闭包能解决的了,
+需要两层闭包:
+
+-   最外层, 也是新加的一层, 用 ``log`` 充当装饰器的命名,
+    装饰器需要的参数在这里传入.
+-   次外层, 姑且命名为 ``decorator``, 就是原本的装饰器.
+-   最内层, 命名为 ``wrap``, 也就是包装函数.
+
+::
+
+    def log(text):
+        def decorator(func):
+            def wrap(*args, **kwargs):
+                print(text)
+                return func(*args, **kwargs)
+            return wrap
+        return decorator
+
+在调用时::
+
+    @log("this is hello")
+    def hello():
+        print("Hello")
+
+1.  首先, 调用了最外层的 ``log("this is hello")``,
+    返回了一个经过修改的装饰器 ``decorator``
+2.  然后, 调用了 ``decorator``, 将 ``hello`` 函数传入了进去.
+    得到了装饰后的 ``hello`` 函数 (这时候的 hello 其实是 ``wrap`` 函数了)
+3.  最后, 可以调用这个 hello 函数, 那么, 就会执行 ``wrap``
+    函数. 即, 先调用了 ``print(text)``, 再调用原本的 hello.
+
+匿名函数
+========
+
+匿名函数和普通的函数只在与没有函数名这一点上::
+
+    lambda arg1, args2 : return_value
+
+匿名函数一般用于临时使用, 例如在 :func:`filter`
+或者 :func:`map` 中传入作为参数使用.
+
+除了没有命名 (实际上会在内部生成机器命名) 之外,
+其他和普通函数一样. 只是由于 :keyword:`lambda` 表达式
+很简短, 只有形参与返回值两个部分, 所以无法定义复杂逻辑.
