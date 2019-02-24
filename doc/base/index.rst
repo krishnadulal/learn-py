@@ -10,4 +10,5 @@ Python 基础
     base-collections
     base-control-structure
     base-function
+    base-class
     base-magics
