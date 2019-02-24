@@ -61,7 +61,7 @@ ConfigParser
     #    parser.read(file)
 
 确定读取类型
-==========
+============
 
 ini 配置文件默认所有数值都是字符串,
 ConfigParser 提供了基本的解析功能:

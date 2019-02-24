@@ -1,3 +1,4 @@
+################
 Python3 学习笔记
 ################
 
@@ -8,38 +9,10 @@ OS
 
 .. toctree::
     :maxdepth: 2
-    :caption: 基础
+    :caption: Python3
 
-    base/base-number-string
-    base/base-collections
-    base/base-control-structure
-    base/base-function
-    base/base-magics
-
-.. toctree::
-    :maxdepth: 2
-    :caption: 标准库
-    :glob:
-
-    stdlib/*
-
-.. toctree::
-    :maxdepth: 2
-    :caption: 其他模块
-    :glob:
-
-    thirdlib/*
-
-.. toctree::
-    :maxdepth: 2
-    :caption: 开发工具
-    :glob:
-
-    tool/*
-
-.. toctree::
-    :maxdepth: 2
-    :caption: 另言
-    :glob:
-
-    other/*
+    base/index
+    stdlib/index
+    thirdlib/index
+    tool/index
+    other/index
