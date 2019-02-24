@@ -184,3 +184,96 @@ ab
 
 - :meth:`object.__enter__` 不需要额外的参数, 也不应该有额外参数.
 - :meth:`object.__exit__` 需要三个额外参数, 分别是在 :keyword:`with` 语句中发生的异常类型, 异常变量, 错误追踪. 而在 :meth:`object.__exit__` 之中, 也应当根据异常的不同进行错误处理.
+
+让对象支持切片
+==============
+
+:func:`object.__getitem__` 就是让对象支持切片语法::
+
+    list[begin:end:step]
+
+的方法::
+
+    class LIST:
+        __body = [1, 2, 3, 4, 5]
+
+        def __getitem__(self, arg):
+            if isinstance(arg, int):
+                # 传入的是一个索引值
+                return self.__body[arg]
+            elif isinstance(arg, slice):
+                # 传入的是一个切片
+                return self.__body[arg.start:arg.stop:arg.step]
+            elif isinstance(arg, tuple):
+                # obj[a, b]
+                result = []
+                for i in arg:
+                    if isinstance(i, int):
+                        result += [self.__body[i],]
+                    elif isinstance(i, slice):
+                        result += self.__body[i]
+                return result
+
+    x = LIST()
+
+    x[1:3]
+    [1,2]
+
+    x[1]
+    1
+
+    x[1, 3, 9:11]
+    [1, 3, 9, 10]
+
+.. class:: slice
+
+    一个切片对象, 具有 ``start``, ``stop``, ``step`` 属性.
+
+    用 ``start:stop:step`` 的方式实例化.
+
+让对象表现得类似字典
+====================
+
+定义 ``__setitem__``, 和 ``__delitem__``
+
+.. todo
+
+动态地读取属性
+==============
+
+当调用一个实例的属性时::
+
+    instance.attr
+
+如果在实例中已经定义了相关属性, 那么就会直接返回.
+如果没有, 那么会尝试调用::
+
+    instance.__getattr__("attr")
+
+所以, 可以自定义 :meth:`object.__getattr__` 方法,
+来实现动态的属性读取.
+
+::
+
+>>> class Site:
+>>>     def __init__(self, root=""):
+>>>         self.__root = root
+>>>
+>>>     def __str__(self):
+>>>         return "{}".format(self.__root)
+>>>
+>>>     def __getattr__(self, attr):
+>>>         return Site(
+>>>             "{}/{}".format(
+>>>                 self.__root,
+>>>                 attr
+>>>             )
+>>>         )
+>>> x = Site()
+>>> x.pathlib.Path
+/pathlib/Path
+
+让对象表现得像个函数
+====================
+
+定义 :meth:`object.__call__` 方法.
