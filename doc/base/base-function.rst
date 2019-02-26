@@ -269,7 +269,6 @@ this is inner
 >>>         print(asctime())
 >>>         return func()
 >>>     return wrap
->>>
 >>> @log
 >>> def hello():
 >>>     print("Hello")
