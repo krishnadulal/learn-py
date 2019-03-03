@@ -24,15 +24,17 @@ namedtuple
 :func:`namedtuple` 是一个函数, 返回一个类的定义.
 
 .. function:: namedtuple(typename, field_names)
-    :param str typename: 类的命名
-    :param field_names: 成员的命名, 同时设定了容量
-    :return: 类
-    :rtype: :class:`type`
 
     返回值需要一个标识符来接收,
     命名虽然可以不一致,
     但是为了实例的字符串转化,
     建议标识符命名与命名保持相同.
+
+    :param typename: 类的命名
+    :param field_names: 成员的命名, 同时设定了容量
+    :return: 类
+    :rtype: tuple
+
 
 deque
 =====
@@ -82,7 +84,7 @@ ChainMap 就是将多个字典组合起来,
 当要查找一个元素时,
 首先查找第一个字典, 如果存在, 则直接返回值.
 否则将依次查找下去, 直到查找完毕,
-则抛出异常 :except:`KeyError`
+则抛出异常 :exc:`KeyError`
 
 可以用这个特性准备一个配置组: 默认, 配置文件, 命令行等.
 
