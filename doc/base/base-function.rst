@@ -230,7 +230,7 @@ Hello
 this is inner
 
 如果在内部定义的函数(称闭包函数)中引用了外部函数的局部变量
-(使用 :keyword:`nolocal` 声明)
+(使用 :keyword:`nonlocal` 声明)
 那么, 当外部函数 return 了,
 而由于闭包函数还引用了局部变量,
 导致局部变量不会被销毁, 而是绑定到了闭包函数中.
@@ -263,18 +263,19 @@ this is inner
 总不可能在每一个函数中调用 ``print`` 吧,
 但是, 可以在装饰器中, 给传入的函数加点东西::
 
->>> from time import asctime
->>> def log(func):
->>>     def wrap():
->>>         print(asctime())
->>>         return func()
->>>     return wrap
->>> @log
->>> def hello():
->>>     print("Hello")
->>> hello()
-Sun Feb 24 23:00:31 2019
-Hello
+    from time import asctime
+    def log(func):
+        def wrap():
+            print(asctime())
+            return func()
+        return wrap
+    @log
+    def hello():
+        print("Hello")
+    hello()
+
+    Sun Feb 24 23:00:31 2019
+    Hello
 
 最外层的 ``log`` 函数接受一个 func 参数,
 在调用时::
