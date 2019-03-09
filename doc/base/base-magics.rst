@@ -279,23 +279,39 @@ ab
 
 ::
 
->>> class Site:
->>>     def __init__(self, root=""):
->>>         self.__root = root
->>>     def __str__(self):
->>>         return "{}".format(self.__root)
->>>     def __getattr__(self, attr):
->>>         return Site(
->>>             "{}/{}".format(
->>>                 self.__root,
->>>                 attr
->>>             )
->>>         )
->>> x = Site()
->>> x.pathlib.Path
-/pathlib/Path
+    class Site:
+        def __init__(self, root=""):
+            self.__root = root
+        def __str__(self):
+            return "{}".format(self.__root)
+        def __getattr__(self, attr):
+            return Site(
+                "{}/{}".format(
+                    self.__root,
+                    attr
+                )
+            )
+    x = Site()
+    x.pathlib.Path
 
-让对象表现得像个函数
-====================
+    /pathlib/Path
 
-定义 :meth:`object.__call__` 方法.
+重载设置属性与读取属性的行为
+============================
+
+当创建一个类的实例后,
+如果以以下方法为实例添加或读取属性::
+
+    x.attr = 1
+    x.attr
+
+则分别涉及到两个方法:
+:meth:`object.__setattr__` 与 :meth:`object.__getattribute__`.
+
+另外还有一个 :meth:`object.__getattr__` 方法,
+但是, 这个方法在 :class:`object` 中并没有定义.
+此方法将控制访问不存在的成员时的行为.
+
+.. code-block:: python
+
+    class NameSpace:
