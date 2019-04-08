@@ -1,3 +1,7 @@
-ipython
-matplotlib
-pillow
+chardet==3.0.4
+doc8==0.8.0
+docutils==0.14
+ipython==7.3.0
+Pillow==5.4.1
+Pygments==2.3.1
+Sphinx==1.8.4

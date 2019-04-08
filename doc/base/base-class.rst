@@ -232,4 +232,39 @@
 :func:`super`
 =============
 
-:func:`super` 是
+https://docs.python.org/3/library/functions.html?highlight=super#super
+
+:func:`super` 用于获取 :meth:`object.__class__.mro` 方法的下一个类, 这使他经常为误解为 "获取父类".
+
+mro 全称 "Method Resolution Order", 也就是类继承的顺序.
+
+一般使用 ``super(cls, instance)`` 来获取 ``instance`` 的父类,
+``cls`` 应当传入确定的类, 而不能使用 ``self.__class__`` 之类的语法,
+否则容易造成死循环.
+
+MetaClass
+=========
+
+元类 (metaclass) 创建类 (class), 类创建实例 (instance).
+
+类可以通过 :func:`type` 来创建::
+
+    ClassName = type(classname: str, inherition: tuple, attrs: dict)
+
+-   第一个参数定义类的名称
+-   第二个参数是一个元组, 定义类的继承关系
+-   第三个参数定义了类的属性, 是一个字典, 可以是数据或函数成员
+
+用一个标识符 ``ClassName`` 来存储这个类.
+
+type 就是一个元类. 要创建其他元类, 需要继承 type, 并且定义 ``__new__`` 方法::
+
+    class ModMetaClass(type):
+        def __new__(metaclass, classname, parents, attrs):
+            pass
+
+在编写 ORM (对象关系模型) 时, 可通过元类来实现, 让一个类对应一张表:
+
+.. todo:: 正在参与 Python 官方文档的翻译, 此处日后填坑.
+
+    前往翻译站点: https://www.transifex.com/python-doc/python-newest/

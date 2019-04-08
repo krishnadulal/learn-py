@@ -8,3 +8,7 @@
     :glob:
 
     *
+    numpy/index
+    matplotlib/index
+    requests/index
+    flask/index
